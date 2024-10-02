@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Arm</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/loaders/STLLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+    
+</head>
+<body>
+    
+    <div class="nav">
+        <div class="left-nav">
+            <div class="left-sidebar-open-button">
+                <img src="r/icon/ls-open.svg" alt="">
+            </div>
+            <div class="app-title">Robot Control Panel</div>
+        </div>
+
+        <div class="right-nav">
+            <div class="right-sidebar-open-button">
+                <img src="r/icon/rs-open.svg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="screen">
+        <div class="canvas" id="stlCanvas">
+            <!-- <img src="r/img/arm.png" alt="" class="src"> -->
+        </div>
+
+        <div class="control-buttons">
+            <!-- Gripper -->
+            <div class="control">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Gripper
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/icon/gripper.svg" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('close_gripper')">
+                            <img src="r/icon/hold.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('open_gripper')">
+                            <img src="r/icon/unhold.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Wrist -->
+            <div class="control">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Wrist
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/icon/wrist.svg" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-h.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-h.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Elbow -->
+            <div class="control">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Elbow
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/icon/elbow.svg" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('bend_inward')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('extend_outward')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shoulder -->
+            <div class="control">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Shoulder
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/icon/shoulder.svg" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('move_up')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('move_down')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- base -->
+            <div class="control">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Base
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/icon/base.svg" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_left')">
+                            <img src="r/icon/counter-h.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_right')">
+                            <img src="r/icon/clock-h.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- sidebars -->
+    <div class="blur-background"></div>
+    <div class="left-sidebar">
+        <div class="left-sidebar-nav">
+            <div class="left-sidebar-close-button">
+                <img src="r/icon/ls-close.svg" alt="">
+            </div>
+            <div class="app-title">Robot Control Panel</div>
+        </div>
+
+        <div class="list-container">
+
+            <div class="menu-list shortcuts">
+                <div class="menu-head">
+                    <div class="menu-img-title">
+                        <img src="r/icon/cmd.svg" alt="e">
+                        <div class="title">Shortcuts</div>
+                    </div>
+                    <div class="menu-dropdown">
+                        <img src="r/icon/down.svg" alt="e">
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/icon/gripper.svg" alt="e">
+                            <div class="title">Gripper</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">G</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">G</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/icon/wrist.svg" alt="e">
+                            <div class="title">Wrist</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">W</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">W</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/icon/elbow.svg" alt="e">
+                            <div class="title">Elbow</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">E</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">E</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/icon/shoulder.svg" alt="e">
+                            <div class="title">Shoulder</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">S</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">S</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/icon/base.svg" alt="e">
+                            <div class="title">Base</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">B</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">B</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="right-sidebar">
+        <div class="right-sidebar-nav">
+            <div class="l-right-sidebar-nav">
+                <div class="right-sidenav-close-button">
+                    <img src="r/icon/rs-close.svg" alt="">
+                </div>
+                <div class="app-title">Log Data</div>
+            </div>
+
+            <div class="r-right-sidebar-nav">
+                <div class="snap">
+                    <img src="r/icon/snap.svg" alt="" class="src">
+                </div>
+            </div>
+        </div>
+        <div class="right-sidenav-content">
+            <div class="log-book">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Direction</th>
+                            <th>Times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data rows will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="no-data-available">No Data Available</div>
+            </div>
+            <div class="initial-servo-state servo-state-snap">
+                <div class="servo-snap-title">
+                    <img src="r/icon/motor.svg" alt="">
+                    <div class="title">Servo Snapshot</div>
+                </div>
+                <table>
+                    <tr>
+                        <th>Part Name</th>
+                        <th>Angle</th>
+                    </tr>
+                    <tr>
+                        <td>Base</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Shoulder</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Elbow</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Wrist</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Gripper</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js setup -->
+    <script>
+        // Create scene
+        const scene = new THREE.Scene();
+
+        // Create camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 30);
+
+        // Create renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth * 0.4, window.innerHeight * 0.75);
+        document.getElementById('stlCanvas').appendChild(renderer.domElement);
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 10, 7.5).normalize();
+        scene.add(directionalLight);
+
+        // Group to hold all parts together
+        const group = new THREE.Group();
+
+        // Load STL files
+        const loader = new THREE.STLLoader();
+        const stlFiles = [
+            { file: '/stl/Arm1.stl', position: { x: -6.28, y: 4, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 4.5, z: 3.14 }},
+            { file: '/stl/Arm2.stl', position: { x: -14, y: 11, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 3.14, z: 0 }},
+            { file: '/stl/Body.stl', position: { x: 1, y: -1, z: 0 }, scale: 0.1, rotation: { x: -1.57, y: 0, z: 0 }},
+            { file: '/stl/Case.stl', position: { x: 1, y: -9, z: 0 }, scale: 0.1, rotation: { x: -1.57, y: 0, z: 0 }},
+            { file: '/stl/Cover.stl', position: { x: 1, y: -9, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 3.14, z: 0 }},
+            // { file: '/stl/Finger X 2.stl', position: { x: 1, y: 0, z: 11 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Finger2 X 2.stl', position: { x: 1, y: 0, z: 13 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Finger3 X 2.stl', position: { x: 1, y: 0, z: 15 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Gear Servo.stl', position: { x: 1, y: 0, z: 17 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Gear SG90.stl', position: { x: 1, y: 0, z: 19 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Gear Shaft.stl', position: { x: 1, y: 0, z: 21 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Plate Lower.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            { file: '/stl/Plate Upper.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 10, y: 0, z: 0 }},
+            // { file: '/stl/Shaft1.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Shaft2.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Shaft3.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Tabla_Alt.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            // { file: '/stl/Wrist.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
+            
+        ];
+
+        // Function to load a part
+        function loadSTLPart(stl, group) {
+            loader.load(stl.file, function (geometry) {
+                const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                // Set position, scale, and rotation
+                mesh.position.set(stl.position.x, stl.position.y, stl.position.z);
+                mesh.scale.set(stl.scale, stl.scale, stl.scale);
+                mesh.rotation.set(stl.rotation.x, stl.rotation.y, stl.rotation.z);
+                
+                group.add(mesh);  // Add each part to the group
+            });
+        }
+
+        // Load all STL parts into the group
+        stlFiles.forEach(stl => loadSTLPart(stl, group));
+
+        // Add group to scene
+        scene.add(group);
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.015;  // Rotate the whole assembly for a dynamic view
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth * 0.4;
+            const height = window.innerHeight * 0.75;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+
+    <!-- <script type="module">
+        import * as THREE from '/threeJS/three.module.min.js';
+        import { STLLoader } from '/threeJS/STLLoader.js';
+        import { OrbitControls } from '/threeJS/OrbitControls.js';
+
+        // Create scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 30);
+
+        // Create renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('stlCanvas').appendChild(renderer.domElement);
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 10, 7.5).normalize();
+        scene.add(directionalLight);
+
+        // Group to hold all parts together
+        const group = new THREE.Group();
+
+        // Load STL files
+        const loader = new STLLoader();
+        const stlFiles = [
+            { file: '/stl/Arm1.stl', position: { x: 0, y: 0, z: 0 }, scale: 1, rotation: { x: 0, y: 0, z: 0 } },
+            // Add more STL files as needed
+        ];
+
+        // Function to load a part
+        function loadSTLPart(stl) {
+            loader.load(stl.file, function (geometry) {
+                const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(stl.position.x, stl.position.y, stl.position.z);
+                mesh.scale.set(stl.scale, stl.scale, stl.scale);
+                mesh.rotation.set(stl.rotation.x, stl.rotation.y, stl.rotation.z);
+                group.add(mesh);
+            }, undefined, function (error) {
+                console.error('An error happened:', error);
+            });
+        }
+
+        stlFiles.forEach(stl => loadSTLPart(stl));
+        scene.add(group);
+
+        // Add OrbitControls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.005;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script> -->
+
+    <script>
+        function sendCommand(command) {
+            // Use AJAX to send the command to the ESP32
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/control?command=" + command, true);
+            xhr.send();
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
