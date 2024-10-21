@@ -12,7 +12,7 @@
 - **Keyboard Control**: Rotate parts of the arm using specific keys.
 - **Real-time Updates**: Visualization of movement.
 
-### Keyboard Control Shortcuts
+## Keyboard Control Shortcuts
 | **Button**                                                                            | **Function**                     |
 | ------------------------------------------------------------------------------------- | -------------------------------- |
 | ![KeyR](https://img.shields.io/badge/R-Base_Rotation-blue?style=for-the-badge)        | Rotate the **Base**              |
@@ -26,12 +26,14 @@
 | ![Arrow Down](https://img.shields.io/badge/%E2%86%93-Down-gray?style=for-the-badge)   | Rotate Down (for selected part)  |
 
 
+## UI Preview
+
 ![UI](https://github.com/user-attachments/assets/312ceb2f-7c04-42a3-9e54-64d898e34d76)
 
-## UI Preview
 https://github.com/user-attachments/assets/a038e215-ae8c-40a1-b509-3c5e36d9f3fe
 
-### Key Updates:
+
+## Key Updates:
 1. **Button Style Controls**: For each key press, there is now a badge-style button using [shields.io](https://shields.io/) for a clean visual representation.
 2. **Stylized Key Functions**: The table format presents keypresses in a more visually appealing way, improving the overall look and feel.
 3. **Demo Button**: A visually prominent button to encourage users to try out the demo.
