@@ -30,8 +30,7 @@
 
 ![UI](https://github.com/user-attachments/assets/3d1899f9-8223-4175-b9b9-de94615d38a5)
 
-
-https://github.com/user-attachments/assets/a038e215-ae8c-40a1-b509-3c5e36d9f3fe
+https://github.com/user-attachments/assets/ce6d9849-1ba5-4984-8ef5-2f8bb32ab3bd
 
 
 ## Key Updates:
