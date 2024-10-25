@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robotic Arm</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/loaders/STLLoader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
-    
+    <script src="/threejs/three.min.js" type="module"></script>
+    <script src="/threejs/STLLoader.js" type="module"></script>
+    <script src="/threejs/OrbitControls.js" type="module"></script>
+
 </head>
 <body>
     
@@ -34,7 +34,7 @@
 
         <div class="control-buttons">
             <!-- Gripper -->
-            <div class="control">
+            <div class="control gripper">
                 <div class="grabber">
                     <img src="r/icon/grabber.svg" alt="">
                 </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="icon-and-control-button">
                     <div class="icon">
-                        <img src="r/icon/gripper.svg" alt="">
+                        <img src="r/img/gripper.png" alt="">
                     </div>
                     <div class="control-button">
                         <div class="control-1" onclick="sendCommand('close_gripper')">
@@ -55,8 +55,30 @@
                     </div>
                 </div>
             </div>
+            <!-- Palm -->
+            <!-- <div class="control palm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Palm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/palm.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <!-- Wrist -->
-            <div class="control">
+            <div class="control wrist">
                 <div class="grabber">
                     <img src="r/icon/grabber.svg" alt="">
                 </div>
@@ -65,20 +87,42 @@
                 </div>
                 <div class="icon-and-control-button">
                     <div class="icon">
-                        <img src="r/icon/wrist.svg" alt="">
+                        <img src="r/img/wrist.png" alt="">
                     </div>
                     <div class="control-button">
                         <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
-                            <img src="r/icon/counter-h.svg" alt="">
+                            <img src="r/icon/counter-v.svg" alt="">
                         </div>
                         <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
-                            <img src="r/icon/clock-h.svg" alt="">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Forearm -->
+            <div class="control forearm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Forearm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img//forearm.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-v.svg" alt="">
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Elbow -->
-            <div class="control">
+            <div class="control elbow">
                 <div class="grabber">
                     <img src="r/icon/grabber.svg" alt="">
                 </div>
@@ -87,7 +131,29 @@
                 </div>
                 <div class="icon-and-control-button">
                     <div class="icon">
-                        <img src="r/icon/elbow.svg" alt="">
+                        <img src="r/img/elbow.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('bend_inward')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('extend_outward')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Upper Arm -->
+            <div class="control upperarm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Upperarm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/upperarm.png" alt="">
                     </div>
                     <div class="control-button">
                         <div class="control-1" onclick="sendCommand('bend_inward')">
@@ -100,7 +166,7 @@
                 </div>
             </div>
             <!-- Shoulder -->
-            <div class="control">
+            <div class="control shoulder">
                 <div class="grabber">
                     <img src="r/icon/grabber.svg" alt="">
                 </div>
@@ -109,7 +175,7 @@
                 </div>
                 <div class="icon-and-control-button">
                     <div class="icon">
-                        <img src="r/icon/shoulder.svg" alt="">
+                        <img src="r/img/shoulder.png" alt="">
                     </div>
                     <div class="control-button">
                         <div class="control-1" onclick="sendCommand('move_up')">
@@ -121,8 +187,8 @@
                     </div>
                 </div>
             </div>
-            <!-- base -->
-            <div class="control">
+            <!-- Base -->
+            <div class="control base">
                 <div class="grabber">
                     <img src="r/icon/grabber.svg" alt="">
                 </div>
@@ -131,7 +197,7 @@
                 </div>
                 <div class="icon-and-control-button">
                     <div class="icon">
-                        <img src="r/icon/base.svg" alt="">
+                        <img src="r/img/base.png" alt="">
                     </div>
                     <div class="control-button">
                         <div class="control-1" onclick="sendCommand('rotate_left')">
@@ -173,7 +239,7 @@
                 <div class="menu-content">
                     <div class="sortcut-name">
                         <div class="img-title">
-                            <img src="r/icon/gripper.svg" alt="e">
+                            <img src="r/img/gripper.png" alt="e">
                             <div class="title">Gripper</div>
                         </div>
     
@@ -192,7 +258,26 @@
                     </div>
                     <div class="sortcut-name">
                         <div class="img-title">
-                            <img src="r/icon/wrist.svg" alt="e">
+                            <img src="r/img/palm.png" alt="e">
+                            <div class="title">Palm</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">P</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">P</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/img/wrist.png" alt="e">
                             <div class="title">Wrist</div>
                         </div>
     
@@ -211,7 +296,26 @@
                     </div>
                     <div class="sortcut-name">
                         <div class="img-title">
-                            <img src="r/icon/elbow.svg" alt="e">
+                            <img src="r/img/forearm.png" alt="e">
+                            <div class="title">Forearm</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">F</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">F</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/img/elbow.png" alt="e">
                             <div class="title">Elbow</div>
                         </div>
     
@@ -230,7 +334,26 @@
                     </div>
                     <div class="sortcut-name">
                         <div class="img-title">
-                            <img src="r/icon/shoulder.svg" alt="e">
+                            <img src="r/img/upperarm.png" alt="e">
+                            <div class="title">Upperarm</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">U</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">U</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/img/shoulder.png" alt="e">
                             <div class="title">Shoulder</div>
                         </div>
     
@@ -249,7 +372,7 @@
                     </div>
                     <div class="sortcut-name">
                         <div class="img-title">
-                            <img src="r/icon/base.svg" alt="e">
+                            <img src="r/img/base.png" alt="e">
                             <div class="title">Base</div>
                         </div>
     
@@ -261,6 +384,26 @@
                             </div>
                             <div class="shortcut-keys key2">
                                 <div class="title-key">B</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Right Key</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sortcut-name">
+                        <div class="img-title">
+                            <img src="r/img/elbow.png" alt="e">
+                            <div class="title">Structure</div>
+                        </div>
+    
+                        <div class="keys">
+                            <div class="shortcut-keys key1">
+                                <div class="title-key">R</div>
+                                <div class="and-key">+</div>
+                                <div class="arrow-key">Left Key</div>
+                            </div>
+                            <div class="shortcut-keys key2">
+                                <div class="title-key">R</div>
                                 <div class="and-key">+</div>
                                 <div class="arrow-key">Right Key</div>
                             </div>
@@ -338,161 +481,6 @@
         </div>
     </div>
 
-    <!-- Three.js setup -->
-    <script>
-        // Create scene
-        const scene = new THREE.Scene();
-
-        // Create camera
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 30);
-
-        // Create renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth * 0.4, window.innerHeight * 0.75);
-        document.getElementById('stlCanvas').appendChild(renderer.domElement);
-
-        // Add lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 10, 7.5).normalize();
-        scene.add(directionalLight);
-
-        // Group to hold all parts together
-        const group = new THREE.Group();
-
-        // Load STL files
-        const loader = new THREE.STLLoader();
-        const stlFiles = [
-            { file: '/stl/Arm1.stl', position: { x: -6.28, y: 4, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 4.5, z: 3.14 }},
-            { file: '/stl/Arm2.stl', position: { x: -14, y: 11, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 3.14, z: 0 }},
-            { file: '/stl/Body.stl', position: { x: 1, y: -1, z: 0 }, scale: 0.1, rotation: { x: -1.57, y: 0, z: 0 }},
-            { file: '/stl/Case.stl', position: { x: 1, y: -9, z: 0 }, scale: 0.1, rotation: { x: -1.57, y: 0, z: 0 }},
-            { file: '/stl/Cover.stl', position: { x: 1, y: -9, z: 0 }, scale: 0.1, rotation: { x: 1.57, y: 3.14, z: 0 }},
-            // { file: '/stl/Finger X 2.stl', position: { x: 1, y: 0, z: 11 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Finger2 X 2.stl', position: { x: 1, y: 0, z: 13 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Finger3 X 2.stl', position: { x: 1, y: 0, z: 15 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Gear Servo.stl', position: { x: 1, y: 0, z: 17 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Gear SG90.stl', position: { x: 1, y: 0, z: 19 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Gear Shaft.stl', position: { x: 1, y: 0, z: 21 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Plate Lower.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            { file: '/stl/Plate Upper.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 10, y: 0, z: 0 }},
-            // { file: '/stl/Shaft1.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Shaft2.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Shaft3.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Tabla_Alt.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            // { file: '/stl/Wrist.stl', position: { x: 1, y: 0, z: 10 }, scale: 0.1, rotation: { x: 0, y: 0, z: 0 }},
-            
-        ];
-
-        // Function to load a part
-        function loadSTLPart(stl, group) {
-            loader.load(stl.file, function (geometry) {
-                const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
-                const mesh = new THREE.Mesh(geometry, material);
-                
-                // Set position, scale, and rotation
-                mesh.position.set(stl.position.x, stl.position.y, stl.position.z);
-                mesh.scale.set(stl.scale, stl.scale, stl.scale);
-                mesh.rotation.set(stl.rotation.x, stl.rotation.y, stl.rotation.z);
-                
-                group.add(mesh);  // Add each part to the group
-            });
-        }
-
-        // Load all STL parts into the group
-        stlFiles.forEach(stl => loadSTLPart(stl, group));
-
-        // Add group to scene
-        scene.add(group);
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            group.rotation.y += 0.015;  // Rotate the whole assembly for a dynamic view
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // Handle window resizing
-        window.addEventListener('resize', () => {
-            const width = window.innerWidth * 0.4;
-            const height = window.innerHeight * 0.75;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        });
-    </script>
-
-    <!-- <script type="module">
-        import * as THREE from '/threeJS/three.module.min.js';
-        import { STLLoader } from '/threeJS/STLLoader.js';
-        import { OrbitControls } from '/threeJS/OrbitControls.js';
-
-        // Create scene
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 30);
-
-        // Create renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('stlCanvas').appendChild(renderer.domElement);
-
-        // Add lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 10, 7.5).normalize();
-        scene.add(directionalLight);
-
-        // Group to hold all parts together
-        const group = new THREE.Group();
-
-        // Load STL files
-        const loader = new STLLoader();
-        const stlFiles = [
-            { file: '/stl/Arm1.stl', position: { x: 0, y: 0, z: 0 }, scale: 1, rotation: { x: 0, y: 0, z: 0 } },
-            // Add more STL files as needed
-        ];
-
-        // Function to load a part
-        function loadSTLPart(stl) {
-            loader.load(stl.file, function (geometry) {
-                const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.position.set(stl.position.x, stl.position.y, stl.position.z);
-                mesh.scale.set(stl.scale, stl.scale, stl.scale);
-                mesh.rotation.set(stl.rotation.x, stl.rotation.y, stl.rotation.z);
-                group.add(mesh);
-            }, undefined, function (error) {
-                console.error('An error happened:', error);
-            });
-        }
-
-        stlFiles.forEach(stl => loadSTLPart(stl));
-        scene.add(group);
-
-        // Add OrbitControls
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.maxPolarAngle = Math.PI / 2;
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            group.rotation.y += 0.005;
-            controls.update();
-            renderer.render(scene, camera);
-        }
-
-        animate();
-    </script> -->
-
     <script>
         function sendCommand(command) {
             // Use AJAX to send the command to the ESP32
@@ -501,6 +489,7 @@
             xhr.send();
         }
     </script>
-    <script src="script.js"></script>
+    <script src="stl.js" type="module"></script>
+    <script src="controller.js" type="module"></script>
 </body>
 </html>
