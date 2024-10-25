@@ -28,7 +28,8 @@
 
 ## UI Preview
 
-![UI](https://github.com/user-attachments/assets/312ceb2f-7c04-42a3-9e54-64d898e34d76)
+![UI](https://github.com/user-attachments/assets/3d1899f9-8223-4175-b9b9-de94615d38a5)
+
 
 https://github.com/user-attachments/assets/a038e215-ae8c-40a1-b509-3c5e36d9f3fe
 
