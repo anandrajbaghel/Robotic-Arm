@@ -3,9 +3,15 @@
     padding: 0;
     box-sizing: border-box;
     overflow: hidden;
+    user-select: none;
+    /* font-family: Century Gothic; */
     /* border: 1px dotted #000; */
 }
-
+/* @font-face {
+    font-family: 'YourCustomFont';
+    src: url('r/font/Century\ Gothic.ttf') format('ttf');
+    font-weight: bold;
+} */
 .nav{
     width: 100%;
     display: flex;
@@ -13,6 +19,7 @@
     align-items: center;
     padding: 16px 24px;
     background-color: rgba(255, 255, 255, 1);
+    /* backdrop-filter: blur(100px); Blurs the background */
     border-bottom: 1px dotted #000;
     position: fixed;
 }
@@ -28,9 +35,8 @@
     color: #000;
     margin-left: 16px;
 }
-
 .screen{
-    background-color: #fff;
+    background-color: #ffffff;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -38,7 +44,8 @@
     align-items: center;
     flex-direction: row;
     gap: 32px;
-    border: 1px solid #000;
+    padding-top: 10px;
+    /* border: 1px solid #000; */
 }
 .canvas{
     width: 40dvw;
@@ -54,9 +61,9 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    height: 75dvh;
+    height: 80dvh;
     border-radius: 32px;
-    padding: 32px;
+    padding: 10px 32px;
     /* border: 1px solid #000; */
 }
 
@@ -87,8 +94,13 @@
     left: -340px;
     z-index: 2;
     transition: 0.5s ease-in-out;
+    overflow-y: auto;
     /* border-right: 1px dotted #000; */
 }
+.left-sidebar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+}
+
 .left-sidebar-nav{
     width: 340px;
     display: flex;
@@ -98,6 +110,7 @@
     top: 0;
     left: 0;
     position: absolute;
+    z-index: 2;
     border-bottom: 1px dotted #000;
 }
 .left-sidebar-nav .app-title{
@@ -172,6 +185,11 @@
     flex-direction: column;
     /* border: 1px dotted #000; */
 }
+    .menu-content .sortcut-name img{
+        width: 32px;
+        height: 32px;
+        /* border: 1px dotted #000; */
+    }
 .sortcut-name .img-title{
     display: flex;
     flex-direction: row;
@@ -235,8 +253,12 @@
     top: 0;
     right: -340px;
     z-index: 2;
+    overflow-y: auto;
     transition: 0.5s ease-in-out;
     /* border-left: 1px dotted #000; */
+}
+.right-sidebar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
 }
 .right-sidebar-nav{
     width: 340px;
@@ -385,6 +407,11 @@
     cursor: grab;
     /* border: 1px dotted #000; */
 }
+.grabber img{
+    width: 24px;
+    height: 24px;
+    /* border: 1px dotted #000; */
+}
 .control-name{
     width: 140px;
     font-size: 24px;
@@ -419,8 +446,8 @@
     /* border: 1px dotted #000; */
 }
 .control-1, .control-2{
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -429,8 +456,8 @@
     border: 1.6px solid rgba(0, 0, 0, 0.2);
 }
 .control-1 img, .control-2 img{
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     /* border: 1px dotted #000; */
 }
 .control-1:hover, .control-2:hover{
