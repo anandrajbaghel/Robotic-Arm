@@ -31,9 +31,3 @@
 ![UI](https://github.com/user-attachments/assets/3d1899f9-8223-4175-b9b9-de94615d38a5)
 
 https://github.com/user-attachments/assets/ce6d9849-1ba5-4984-8ef5-2f8bb32ab3bd
-
-
-## Key Updates:
-1. **Button Style Controls**: For each key press, there is now a badge-style button using [shields.io](https://shields.io/) for a clean visual representation.
-2. **Stylized Key Functions**: The table format presents keypresses in a more visually appealing way, improving the overall look and feel.
-3. **Demo Button**: A visually prominent button to encourage users to try out the demo.
