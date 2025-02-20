@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Set the ESP32 IP address (adjust as needed)
     const esp32IP = "192.168.27.130";
-    const wsUrl = `ws://${esp32IP}/ws`;
+    const wsUrl = `wss://${esp32IP}/ws`;
     let socket = new WebSocket(wsUrl);
   
     // DOM elements for UI updates
