@@ -1,13 +1,8 @@
 # Robotic-Arm
 
 ![Robotic Arm](https://img.shields.io/badge/Robotic_Arm-3D_Visualization-blue)
-![Three.js](https://img.shields.io/badge/Three.js-Interactive_Simulation-orange)<br/>
+![Three.js](https://img.shields.io/badge/Three.js-Interactive_Simulation-orange)<br/><br/>
 [![Launch App](https://img.shields.io/badge/Launch%20App-0078D7?style=for-the-badge&logo=google-chrome&logoColor=white)](https://anandrajbaghel.github.io/Robotic-Arm/)
-
-<a href="https://anandrajbaghel.github.io/Robotic-Arm/">
-  <img src="https://img.shields.io/badge/Launch%20App-0078D7?style=for-the-badge&logo=google-chrome&logoColor=white" 
-       style="border-radius: 10px;">
-</a>
 
 
 ## Overview
