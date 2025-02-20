@@ -1,83 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Launch Page</title>
-  <style>
-    /* Reset default styling */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    html, body {
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    }
-    
-    /* Animated dynamic glowing background (blue gradient) */
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      background: linear-gradient(45deg, #1e3c72, #2a5298, #2a5298, #1e3c72);
-      background-size: 400% 400%;
-      animation: gradientAnimation 15s ease infinite;
-    }
-    
-    @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-    
-    /* Centered "Launch App" link styled as a button */
-    .launch-btn {
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      text-decoration: none;
-    }
-    
-    .launch-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-    
-    /* Note at the bottom */
-    .note {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Arm</title>
+    <link rel="stylesheet" href="e.css"><!-- Key#007 Nav -->
+    <link rel="stylesheet" href="f.css"><!-- Key#008 Sidebar(left) Option -->
+    <link rel="stylesheet" href="d.css"><!-- Key#009 Robotic Arm Control Panel -->
+
+    <script src="/threejs/three.min.js" type="module"></script>
+    <script src="/threejs/STLLoader.js" type="module"></script>
+    <script src="/threejs/OrbitControls.js" type="module"></script>
 </head>
 <body>
-  <a class="launch-btn" href="https://github.com/anandrajbaghel/Robotic-Arm/ui/index.html">
-    Launch App
-  </a>
-  <div class="note">Open in desktop only</div>
+    
+    <!-- Key#007 Nav -->
+    <div class="nav">
+        <div class="icon-32 sidebar-left-open" id="sidebar-left-open">
+            <span class="marker" id="sidebar-left-open-marker"></span>
+            <img src="r/icon/ls-open.svg" alt="">
+        </div>
+        <div class="app-title">
+            Robot Control Panel
+        </div>
+        <div class="icon-32 socket" id="socket">
+            <span class="marker" id="socket-marker"></span>
+            <img src="r/icon/socket.svg" alt="" srcset="">
+        </div>
+        <div class="icon-32 message-box" id="message">
+            <span class="marker" id="message-marker"></span>
+            <img src="r/icon/message - none.svg" alt="" srcset="">
+        </div>
+        <div class="icon-32 sidebar-right-open" id="sidebar-right-open">
+            <span class="marker" id="sidebar-right-open-marker"></span>
+            <img src="r/icon/rs-open.svg" alt="">
+        </div>
+    </div>
+
+    <!-- Key#007 Nav Option Overlays -->
+    <div class="overlay socket-overlay">
+        <div class="overlay-text socket-overlay-text">
+            WebSocket<br/>
+            Status
+        </div>
+        <div class="overlay-content socket-overlay-content">
+            <div class="device" id="device">
+                Available Devices
+            </div>
+            <div class="connection" id="connection">
+                Not Connected
+            </div>
+        </div>
+    </div>
+    <div class="overlay message-overlay">
+        <div class="overlay-text message-overlay-text">
+            Messages
+        </div>
+        <div class="overlay-content message-overlay-content">
+            <span class="message-update">
+                No new messages
+            </span>
+        </div>
+    </div>
+
+    <!-- Key#007 Nav Sidebars -->
+    <div class="blur-background"></div>
+    <div class="sidebar sidebar-left">
+        <div class="nav sidebar-left-nav">
+            <div class="icon-32 sidebar-left-close" id="sidebar-left-close">
+                <span class="marker" id="sidebar-left-close-marker"></span>
+                <img src="r/icon/ls-close.svg" alt="">
+            </div>
+            <div class="app-title">Robot Control Panel</div>
+        </div>
+
+        <div class="sidebar-left-list">
+            <div class="sidebar-left-list-item shortcuts" id="shortcuts">
+                <div class="sidebar-left-list-item-name">Shortcuts</div>
+                <div class="sidebar-left-list-item-description">
+                    All the shortcuts to control the robotic arm.
+                </div>
+            </div>
+            <div class="sidebar-left-list-item about" id="about">
+                <div class="sidebar-left-list-item-name">About</div>
+                <div class="sidebar-left-list-item-description">
+                    About the project and the team.
+                </div>
+            </div>
+            <div class="sidebar-left-list-item resources" id="resources">
+                <div class="sidebar-left-list-item-name">Resources</div>
+                <div class="sidebar-left-list-item-description">
+                    Resources used in the project.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar sidebar-right">
+        <div class="nav sidebar-right-nav">
+            <div class="app-title app-title-log">Log Data</div>
+            <div class="icon-32 sidebar-right-close" id="sidebar-right-close">
+                <span class="marker" id="sidebar-right-close-marker"></span>
+                <img src="r/icon/rs-close.svg" alt="">
+            </div>
+        </div>
+
+        <div class="sidebar-right-content">
+            <div class="log-book">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Direction</th>
+                            <th>Times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data rows will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="no-data-available">No Data Available</div>
+            </div>
+            <div class="initial-servo-state servo-state-snap">
+                <div class="servo-snap-title">
+                    <img src="r/icon/motor.svg" alt="">
+                    <div class="title">Servo Snapshot</div>
+                </div>
+                <table>
+                    <tr>
+                        <th>Part Name</th>
+                        <th>Angle</th>
+                    </tr>
+                    <tr>
+                        <td>Base</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Shoulder</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Elbow</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Wrist</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Gripper</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key#008 Sidebar(left) Option -->
+    <div class="box shortcut-box" id="shortcut-box">
+        <div class="box-head shortcut-head">
+            <div class="box-head-title shortcut-head-title">
+                Shortcuts
+            </div>
+            <span class="close-box close-shortcut" id="close-shortcut">
+                &times;
+            </span>
+        </div>
+        <div class="box-content shortcut-content">
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/gripper.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Gripper</div>
+                <div class="row-shortcut-key">
+                    <span class="key">G + Left Arrow</span>
+                    <span class="key">G + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/palm.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Palm</div>
+                <div class="row-shortcut-key">
+                    <span class="key">P + Left Arrow</span>
+                    <span class="key">P + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/wrist.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Wrist</div>
+                <div class="row-shortcut-key">
+                    <span class="key">W + Left Arrow</span>
+                    <span class="key">W + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/forearm.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Forearm</div>
+                <div class="row-shortcut-key">
+                    <span class="key">F + Left Arrow</span>
+                    <span class="key">F + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/elbow.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Elbow</div>
+                <div class="row-shortcut-key">
+                    <span class="key">E + Left Arrow</span>
+                    <span class="key">E + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/upperarm.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Upperarm</div>
+                <div class="row-shortcut-key">
+                    <span class="key">U + Left Arrow</span>
+                    <span class="key">U + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/shoulder.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Shoulder</div>
+                <div class="row-shortcut-key">
+                    <span class="key">S + Left Arrow</span>
+                    <span class="key">S + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/base.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Base</div>
+                <div class="row-shortcut-key">
+                    <span class="key">B + Left Arrow</span>
+                    <span class="key">B + Right Arrow</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="shortcut-for">
+                    <img src="r/img/base.png" alt="" srcset="">
+                </div>
+                <div class="row-title">Whole Structure</div>
+                <div class="row-shortcut-key">
+                    <span class="key">R + Left Arrow</span>
+                    <span class="key">R + Right Arrow</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box about-box" id="about-box">
+        <div class="box-head about-head">
+            <div class="box-head-title about-head-title">
+                About
+            </div>
+            <span class="close-box close-about" id="close-about">
+                &times;
+            </span>
+        </div>
+        <div class="about-content">
+            <div class="about-content-title">
+                Robotic Arm
+            </div>
+            <div class="about-project-links">
+                <a href="https://github.com/anandrajbaghel/Robotic-Arm" method="GET" target="_blank">
+                    <img src="r/icon/github.svg" alt="" srcset="">
+                Github</a>
+                <a href="https://anandrajbaghel.github.io/Robotic-Arm/" metod="GET" target="_blank">
+                    <img src="r/icon/github.svg" alt="" srcset="">
+                / Robotic-Arm</a>
+            </div>
+            <div class="about-content-description">
+                6 DOF Robotic Arm to displace objects from one place to another.
+                Designed and implemented to displace upto 100g of weights.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione quaerat temporibus inventore architecto itaque vel, aliquid alias est esse veniam odit tempora eveniet deleniti magnam necessitatibus! Nesciunt voluptatibus quam ab!
+
+            </div>
+            <div class="about-content-title">
+                Team
+            </div>
+            <div class="team-cards">
+                <div class="team-card">
+                    <div class="team-card-image">
+                        <img src="r/img/abstract1.jpg" alt="" srcset="">
+                    </div>
+                    <div class="team-card-name">
+                        Anand Baghel
+                    </div>
+                    <div class="team-card-role">
+                        Developer
+                    </div>
+                    <div class="team-card-links">
+                        <a href="https://github.com/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/github.svg" alt="" srcset="">
+                        </a>
+                        <a href="https://www.linkedin.com/in/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/linkedin.svg" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-card-image">
+                        <img src="r/img/abstract2.jpg" alt="" srcset="">
+                    </div>
+                    <div class="team-card-name">
+                        Anand Baghel
+                    </div>
+                    <div class="team-card-role">
+                        Developer
+                    </div>
+                    <div class="team-card-links">
+                        <a href="https://github.com/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/github.svg" alt="" srcset="">
+                        </a>
+                        <a href="https://www.linkedin.com/in/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/linkedin.svg" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-card-image">
+                        <img src="r/img/abstract3.jpg" alt="" srcset="">
+                    </div>
+                    <div class="team-card-name">
+                        Anand Baghel
+                    </div>
+                    <div class="team-card-role">
+                        Developer
+                    </div>
+                    <div class="team-card-links">
+                        <a href="https://github.com/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/github.svg" alt="" srcset="">
+                        </a>
+                        <a href="https://www.linkedin.com/in/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/linkedin.svg" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-card-image">
+                        <img src="r/img/abstract4.jpg" alt="" srcset="">
+                    </div>
+                    <div class="team-card-name">
+                        Anand Baghel
+                    </div>
+                    <div class="team-card-role">
+                        Developer
+                    </div>
+                    <div class="team-card-links">
+                        <a href="https://github.com/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/github.svg" alt="" srcset="">
+                        </a>
+                        <a href="https://www.linkedin.com/in/anandrajbaghel/" method="GET" target="_blank">
+                            <img src="r/icon/linkedin.svg" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+            </div><br/>
+        </div>
+    </div>
+    <div class="box resource-box" id="resource-box">
+        <div class="box-head resource-head">
+            <div class="box-head-title resource-head-title">
+                Resources
+            </div>
+            <span class="close-box close-resource" id="close-resource">
+                &times;
+            </span>
+        </div>
+        <div class="box-content resource-content">
+            <div class="resource-content-title">
+                Software Used
+            </div>
+                <div class="resource-project-links">
+                    <a href="https://www.arduino.cc/en/software" method="GET" target="_blank">
+                        Arduino IDE
+                    </a>
+                    <a href="https://www.autodesk.com/in/products/fusion-360/free-trial" metod="GET" target="_blank">
+                        AutoDesk Fusion 360
+                    </a>
+                    <a href="https://figma.com" metod="GET" target="_blank">
+                        Figma
+                    </a>
+                    <a href="https://code.visualstudio.com/" metod="GET" target="_blank">
+                        Visual Studio Code
+                    </a>
+                </div>
+            <div class="resource-content-title">
+                Hardware Used
+            </div>
+                <div class="resource-project-links">
+                    <a href="https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" method="GET" target="_blank">
+                        ESP32
+                    </a>
+                    <a href="#" metod="GET" target="_blank">
+                        Servo Motors
+                    </a>
+                </div>
+            <div class="resource-content-title">
+                Libraries Used
+            </div>
+                <div class="resource-project-links">
+                    <a href="" method="GET" target="_blank">
+                        AsyncServer.h
+                    </a>
+                    <a href="" metod="GET" target="_blank">
+                        Wifi.h
+                    </a>
+                </div>
+            <div class="resource-content-title">
+                References
+            </div>
+                <div class="resource-project-links">
+                    <a href="https://chatgpt.com/" method="GET" target="_blank">
+                        ChatGPT
+                    </a>
+                    <a href="https://github.com/" method="GET" target="_blank">
+                        Github
+                    </a>
+                    <a href="https://www.youtube.com/@SPARKPLUG98" method="GET" target="_blank">
+                        SPARK PLUG (YouTube Channel)
+                    </a>
+                    <a href="https://youtube.com/playlist?list=PLVRedDO8Xs5wM9p8PJlFSnLsQEV566xqQ" metod="GET" target="_blank">
+                        3D Model Tutorials (YouTube Playlist)
+                    </a>
+                </div>
+        </div>
+    </div>
+
+    <!-- Key#009 Interactive 3D Model of Robotic Arm -->
+    <div class="screen">
+        <div class="canvas" id="stlCanvas">
+            <!-- IMPORTANT! Model loads here -->
+        </div>
+
+        <div class="control-buttons">
+            <!-- Gripper -->
+            <div class="control gripper">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Gripper
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/gripper.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('close_gripper')">
+                            <img src="r/icon/hold.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('open_gripper')">
+                            <img src="r/icon/unhold.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Palm -->
+            <!-- <div class="control palm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Palm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/palm.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Wrist -->
+            <div class="control wrist">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Wrist
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/wrist.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Forearm -->
+            <div class="control forearm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Forearm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img//forearm.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_wrist_left')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_wrist_right')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Elbow -->
+            <div class="control elbow">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Elbow
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/elbow.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('bend_inward')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('extend_outward')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Upper Arm -->
+            <div class="control upperarm">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Upperarm
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/upperarm.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('bend_inward')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('extend_outward')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shoulder -->
+            <div class="control shoulder">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Shoulder
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/shoulder.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('move_up')">
+                            <img src="r/icon/counter-v.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('move_down')">
+                            <img src="r/icon/clock-v.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Base -->
+            <div class="control base">
+                <div class="grabber">
+                    <img src="r/icon/grabber.svg" alt="">
+                </div>
+                <div class="control-name">
+                    Base
+                </div>
+                <div class="icon-and-control-button">
+                    <div class="icon">
+                        <img src="r/img/base.png" alt="">
+                    </div>
+                    <div class="control-button">
+                        <div class="control-1" onclick="sendCommand('rotate_left')">
+                            <img src="r/icon/counter-h.svg" alt="">
+                        </div>
+                        <div class="control-2" onclick="sendCommand('rotate_right')">
+                            <img src="r/icon/clock-h.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="stl.js" type="module"></script>
+    <script src="controller.js" type="module"></script>
+    <script src="websocket.js"></script>
+
 </body>
 </html>
