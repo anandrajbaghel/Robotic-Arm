@@ -2,7 +2,7 @@
 
 ![Robotic Arm](https://img.shields.io/badge/Robotic_Arm-3D_Visualization-blue)
 ![Three.js](https://img.shields.io/badge/Three.js-Interactive_Simulation-orange)
-[Launch App](https://github.com/anandrajbaghel/Robotic-Arm)
+[![Launch App](https://img.shields.io/badge/Launch%20App-0078D7?style=for-the-badge&logo=google-chrome&logoColor=white)](https://anandrajbaghel.github.io/Robotic-Arm/)
 
 ## Overview
 - Designing and implementing a robotic arm to lift and displace upto 100g of weight.
