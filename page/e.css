@@ -1,0 +1,343 @@
+/* Stylesheet for the Nav components of the application. */
+/* ==================================== */
+.nav{
+    width: 100%;
+    height: auto;
+    display: flex;
+    border-bottom: 1px dotted #000;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: rgba(255, 255, 255, 1);
+    background-color: burlywood;
+    /* border: 1px dotted #000; */
+}
+.icon-32{
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    cursor: url('r/img/pointer.png') 4 4, pointer;
+    position: relative;
+}
+.icon-32 img{
+    width: 32px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    /* border: 1px solid #000; */
+}
+.app-title{
+    width: 100%;
+    min-width: 100px; /* or any suitable value */
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 0 16px;
+    white-space: nowrap; /* Prevents the text from wrapping */
+}
+.message-box{
+    margin-right: 16px;
+    /* border: 1px solid #000; */
+}
+.socket{
+    margin-right: 16px;
+    /* border: 1px solid #000; */
+}
+
+/* ==================================== */
+.marker{
+    visibility: hidden;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #256ad1;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    border: 2px solid #fff;
+}
+/* ==================================== */
+#sidebar-left-open-marker{
+    visibility: hidden;
+}
+#sidebar-left-close-marker{
+    visibility: hidden;
+}
+#socket-marker{
+    visibility: hidden;
+}
+#message-marker{
+    visibility: hidden;
+}
+#sidebar-right-open-marker{
+    visibility: hidden;
+}
+#sidebar-right-close-marker{
+    visibility: hidden;
+}
+/* ==================================== */
+
+
+/* ==================================== */
+.sidebar{
+    width: 340px;
+    height: 100dvh;
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    transition: 0.32s ease-in-out;
+    overflow-y: auto;
+    background-color: rgb(255, 255, 255);
+    /* border-right: 1px dotted #000; */
+}
+.sidebar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+}
+/* ==================================== */
+
+.sidebar-left{
+    left: -340px;
+    /* border-right: 1px dotted #000; */
+}
+.sidebar-left-nav{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    background-color: salmon;
+    /* border: 1px dotted #000; */
+}
+.sidebar-left-close{
+    display: flex;
+    flex-shrink: 0;
+}
+.sidebar-left-nav img{
+    width: 32px;
+    /* border: 1px solid #000; */
+}
+
+/* ==================================== */
+
+.sidebar-left-list{
+    top: 64px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    /* background-color: bisque; */
+    /* border: 1px dotted #000; */
+}
+.sidebar-left-list-item{
+    cursor: url('r/img/pointer.png') 4 4, pointer;
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 8px 12px;
+    padding-bottom: 12px;
+    border-radius: 6px;
+    transition: 0.16s;
+    /* border: 1px solid black; */
+}
+.sidebar-left-list-item:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.sidebar-left-list-item-name{
+    font-size: 24px;
+    font-weight: 500;
+    /* background-color: antiquewhite; */
+}
+.sidebar-left-list-item-description{
+    font-size: 12px;
+    /* background-color: aquamarine; */
+}
+
+/* ==================================== */
+
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+    font-family: SF Pro Display;
+    border: 1px dotted #000;
+} */
+
+.sidebar-right{
+    right: -340px;
+    /* border-right: 1px dotted #000; */
+}
+.sidebar-right-nav{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    background-color: salmon;
+    /* border: 1px dotted #000; */
+}
+.sidebar-right-close{
+    display: flex;
+    flex-shrink: 0;
+}
+.sidebar-right-nav img{
+    width: 32px;
+    /* border: 1px solid #000; */
+}
+
+.sidebar-right-content{
+    top: 69px;
+    right: 0;
+    position: absolute;
+    width: 340px;
+    height: 100dvh;
+    /* background-color: #fff; */
+    /* border: 1px dotted #000; */
+}
+.app-title-log{
+    margin: 0;
+}
+.log-book{
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.log-book table{
+    width: calc(340px - 40px);
+    border-collapse: collapse;
+    font-size: 20px;
+    /* border: 1px solid #000; */
+}
+.log-book thead{
+    width: calc(340px - 40px);
+    /* border: 1px solid #000; */
+}
+.log-book tbody{
+    width: calc(340px - 40px);
+    /* background-color: red; */
+    /* border: 1px solid #000; */
+}
+.log-book table th{
+    padding: 10px 4px;
+    text-align: left;
+    /* border: 1px solid #000; */
+}
+.log-book table td{
+    /* text-overflow: ellipsis; */
+    padding: 4px 4px;
+    text-align: left;
+    /* border: 1px solid #000; */
+}
+.log-book .no-data-available{
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 16px;
+}
+
+/* Servo State Stamp */
+.servo-state-snap{
+    width: calc(100% - 40px);
+    margin: 32px 20px;
+    padding: 8px 0;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 16px;
+}
+.servo-snap-title{
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    width: 100%;
+    padding: 0 8px;
+    /* border: 1px solid #000; */
+}
+.servo-snap-title img{
+    width: 32px;
+    height: 32px;
+    /* border: 1px solid #000; */
+}
+.servo-snap-title .title{
+    font-size: 24px;
+    /* font-weight: bold; */
+    color: #000;
+    margin-left: 8px;
+    /* border: 1px solid #000; */
+}
+.servo-state-snap table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+    /* border: 1px solid #000; */
+}
+.servo-state-snap table th{
+    padding: 4px 8px;
+    text-align: left;
+    /* border: 1px solid #000; */
+}
+.servo-state-snap table td{
+    text-overflow: ellipsis;
+    padding: 4px 8px;
+    text-align: left;
+    /* border: 1px solid #000; */
+}
+
+/* ==================================== */
+
+/* ==================================== */
+
+.overlay {
+    width: 200px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    background-color: #fff;
+    border: 1.4px solid #ccc;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+}
+.overlay-text{
+    height: max-content;
+    padding: 10px;
+    padding-bottom: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+}
+.overlay-content{
+    height: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    /* background-color: antiquewhite; */
+    /* border: 1px solid #ccc; */
+}
+
+/* =================================== */
+
+.socket-overlay{
+    visibility: hidden;
+    position: fixed;
+    top: 60px;
+    right: 40px;
+}
+.message-overlay{
+    visibility: hidden;
+    position: fixed;
+    top: 60px;
+    right: 2px;
+}
+
+/* =================================== */
+
+/* =================================== */
