@@ -29,7 +29,7 @@ const loader = new THREE.STLLoader();
 // Base (the root object of the robotic arm)
 let baseGroup = new THREE.Group();
 scene.add(baseGroup); // Add baseGroup to the scene
-loader.load('/stl2/0base.stl', function (geometry) {
+loader.load('./stl/0base.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -18.4, 0);
@@ -43,7 +43,7 @@ loader.load('/stl2/0base.stl', function (geometry) {
 // Shoulder (child of the base)
 let shoulderGroup = new THREE.Group();
 baseGroup.add(shoulderGroup); // Attach shoulder to baseGroup
-loader.load('/stl2/1shoulder.stl', function (geometry) {
+loader.load('./stl/1shoulder.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -10, 0);
@@ -60,7 +60,7 @@ shoulderGroup.add(elbowPivotGroup); // Attach elbowPivotGroup to shoulderGroup
 elbowPivotGroup.position.set(-16, 6, -2); // Set pivot group position to the elbow's CoM
 let elbowGroup = new THREE.Group();
 elbowPivotGroup.add(elbowGroup); // Attach elbow to shoulderGroup
-loader.load('/stl2/2elbow.stl', function (geometry) {
+loader.load('./stl/2elbow.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0);
@@ -81,7 +81,7 @@ elbowGroup.add(wristPivotGroup); // Attach wristPivotGroup to elbowGroup
 wristPivotGroup.position.set(33, 11.5, -2); // Set pivot group position to the wrist's CoM
 let wristGroup = new THREE.Group();
 wristPivotGroup.add(wristGroup); // Attach wrist to elbowGroup
-loader.load('/stl2/3wrist.stl', function (geometry) {
+loader.load('./stl/3wrist.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(4.5, 5, 7);
@@ -102,7 +102,7 @@ wristGroup.add(handPivotGroup); // Attach handPivotGroup to wristGroup
 handPivotGroup.position.set(-26, 5, 8); // Set pivot group position to the hand's CoM
 let handGroup = new THREE.Group();
 handPivotGroup.add(handGroup); // Attach handGroup to handPivotGroup
-loader.load('/stl2/4hand.stl', function (geometry) {
+loader.load('./stl/4hand.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
@@ -122,7 +122,7 @@ handGroup.add(forehandPivotGroup); // Attach handPivotGroup to wristGroup
 forehandPivotGroup.position.set(-10, 0, -1); // Set pivot group position to the hand's CoM
 let forehandGroup = new THREE.Group();
 forehandPivotGroup.add(forehandGroup); // Attach handGroup to handPivotGroup
-loader.load('/stl2/5forehand.stl', function (geometry) {
+loader.load('./stl/5forehand.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(-6, 0, -0.5); // Position the mesh at the origin of the handGroup
@@ -142,7 +142,7 @@ forehandGroup.add(fingerPivotGroup); // Attach handPivotGroup to wristGroup
 fingerPivotGroup.position.set(-10, 0, -1); // Set pivot group position to the hand's CoM
 let fingerGroup = new THREE.Group();
 fingerPivotGroup.add(fingerGroup); // Attach handGroup to handPivotGroup
-loader.load('/stl2/6finger.stl', function (geometry) {
+loader.load('./stl/6finger.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
@@ -162,7 +162,7 @@ fingerGroup.add(gripperPivotGroup); // Attach handPivotGroup to wristGroup
 gripperPivotGroup.position.set(-8, 0, 0); // Set pivot group position to the hand's CoM
 let gripperGroup = new THREE.Group();
 gripperPivotGroup.add(gripperGroup); // Attach handGroup to handPivotGroup
-loader.load('/stl2/7gripper.stl', function (geometry) {
+loader.load('./stl/7gripper.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
