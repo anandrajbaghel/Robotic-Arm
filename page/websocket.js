@@ -21,12 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // Note: This function no longer changes socket-marker visibility.
     function appendMessage(text) {
       if (messageUpdateElem) {
-        const newMsg = document.createElement("div");
-        newMsg.textContent = text;
-        messageUpdateElem.appendChild(newMsg);
+      const newMsg = document.createElement("div");
+      const now = new Date();
+      const timeString = now.toTimeString().split(' ')[0].slice(0, 5); // Get HH:MM
+      newMsg.textContent = `[${timeString}] ${text}`;
+      newMsg.style.backgroundColor = "#eee";
+      newMsg.style.color = "#000";
+      newMsg.style.padding = "6px";
+      newMsg.style.margin = "0 0 4px 0";
+      newMsg.style.borderRadius = "6px";
+      messageUpdateElem.insertBefore(newMsg, messageUpdateElem.firstChild);
       }
       if (messageMarker) {
-        messageMarker.style.visibility = "visible";
+      messageMarker.style.visibility = "visible";
       }
     }
   
@@ -37,12 +44,14 @@ document.addEventListener("DOMContentLoaded", () => {
       deviceElem.textContent = `Connected to ${wsUrl} (Robotic Arm)`;
       if (socketMarker) {
         socketMarker.style.visibility = "visible";
+        socketMarker.style.backgroundColor = "#06c23e";
       }
     };
   
     socket.onmessage = (event) => {
       console.log("Message from ESP32:", event.data);
       appendMessage(event.data);
+      messageMarker.style.backgroundColor = "orange";
     };
   
     socket.onerror = (err) => {
@@ -52,7 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
       deviceElem.textContent = `Failed to connect to ${wsUrl}`;
       // Hide the socket-marker on error (if desired)
       if (socketMarker) {
-        socketMarker.style.visibility = "hidden";
+        socketMarker.style.visibility = "visible";
+        socketMarker.style.backgroundColor = "red";
       }
     };
   
@@ -62,7 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
       appendMessage("WebSocket closed. Not Connected.");
       deviceElem.textContent = `Failed to connect to ${wsUrl}`;
       if (socketMarker) {
-        socketMarker.style.visibility = "hidden";
+        // socketMarker.style.visibility = "hidden";
+        socketMarker.style.visibility = "visible";
+        socketMarker.style.backgroundColor = "red";
       }
     };
   
@@ -84,4 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
         sendCommandToESP32("base_clock");
       });
     }
-  });  
+  });
