@@ -1,3 +1,21 @@
+import { sendCommand } from './commandSender.js';
+
+// Selecting angle input
+let angleInput = document.getElementById('angle-input');
+let rotatingAngle = parseFloat(angleInput.value);
+
+// Update rotatingAngle whenever the input value changes
+angleInput.addEventListener('input', function() {
+    rotatingAngle = parseFloat(angleInput.value);
+});
+
+angleInput.addEventListener('wheel', function(event) {
+    event.preventDefault();
+    let delta = event.deltaY > 0 ? -1 : 1;
+    rotatingAngle = Math.max(1, Math.min(9, rotatingAngle + delta));
+    angleInput.value = rotatingAngle;
+});
+
 // Create scene
 const scene = new THREE.Scene();
 
@@ -29,7 +47,7 @@ const loader = new THREE.STLLoader();
 // Base (the root object of the robotic arm)
 let baseGroup = new THREE.Group();
 scene.add(baseGroup); // Add baseGroup to the scene
-loader.load('./stl/0base.stl', function (geometry) {
+loader.load('/stl2/0base.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -18.4, 0);
@@ -43,7 +61,7 @@ loader.load('./stl/0base.stl', function (geometry) {
 // Shoulder (child of the base)
 let shoulderGroup = new THREE.Group();
 baseGroup.add(shoulderGroup); // Attach shoulder to baseGroup
-loader.load('./stl/1shoulder.stl', function (geometry) {
+loader.load('/stl2/1shoulder.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -10, 0);
@@ -60,7 +78,7 @@ shoulderGroup.add(elbowPivotGroup); // Attach elbowPivotGroup to shoulderGroup
 elbowPivotGroup.position.set(-16, 6, -2); // Set pivot group position to the elbow's CoM
 let elbowGroup = new THREE.Group();
 elbowPivotGroup.add(elbowGroup); // Attach elbow to shoulderGroup
-loader.load('./stl/2elbow.stl', function (geometry) {
+loader.load('/stl2/2elbow.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0);
@@ -81,7 +99,7 @@ elbowGroup.add(wristPivotGroup); // Attach wristPivotGroup to elbowGroup
 wristPivotGroup.position.set(33, 11.5, -2); // Set pivot group position to the wrist's CoM
 let wristGroup = new THREE.Group();
 wristPivotGroup.add(wristGroup); // Attach wrist to elbowGroup
-loader.load('./stl/3wrist.stl', function (geometry) {
+loader.load('/stl2/3wrist.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(4.5, 5, 7);
@@ -102,7 +120,7 @@ wristGroup.add(handPivotGroup); // Attach handPivotGroup to wristGroup
 handPivotGroup.position.set(-26, 5, 8); // Set pivot group position to the hand's CoM
 let handGroup = new THREE.Group();
 handPivotGroup.add(handGroup); // Attach handGroup to handPivotGroup
-loader.load('./stl/4hand.stl', function (geometry) {
+loader.load('/stl2/4hand.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
@@ -122,7 +140,7 @@ handGroup.add(forehandPivotGroup); // Attach handPivotGroup to wristGroup
 forehandPivotGroup.position.set(-10, 0, -1); // Set pivot group position to the hand's CoM
 let forehandGroup = new THREE.Group();
 forehandPivotGroup.add(forehandGroup); // Attach handGroup to handPivotGroup
-loader.load('./stl/5forehand.stl', function (geometry) {
+loader.load('/stl2/5forehand.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(-6, 0, -0.5); // Position the mesh at the origin of the handGroup
@@ -142,7 +160,7 @@ forehandGroup.add(fingerPivotGroup); // Attach handPivotGroup to wristGroup
 fingerPivotGroup.position.set(-10, 0, -1); // Set pivot group position to the hand's CoM
 let fingerGroup = new THREE.Group();
 fingerPivotGroup.add(fingerGroup); // Attach handGroup to handPivotGroup
-loader.load('./stl/6finger.stl', function (geometry) {
+loader.load('/stl2/6finger.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
@@ -162,7 +180,7 @@ fingerGroup.add(gripperPivotGroup); // Attach handPivotGroup to wristGroup
 gripperPivotGroup.position.set(-8, 0, 0); // Set pivot group position to the hand's CoM
 let gripperGroup = new THREE.Group();
 gripperPivotGroup.add(gripperGroup); // Attach handGroup to handPivotGroup
-loader.load('./stl/7gripper.stl', function (geometry) {
+loader.load('/stl2/7gripper.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 0, 0); // Position the mesh at the origin of the handGroup
@@ -220,7 +238,7 @@ let isPPressed = false;
 let isGPressed = false;
 
 function structureControl(structure, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
         baseGroup.rotation.y -= rotationAmount; // Clock
     } else if (direction === 'clock') {
@@ -228,51 +246,63 @@ function structureControl(structure, direction) {
     }
 }
 function baseControl(base, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        shoulderGroup.rotation.y -= THREE.Math.degToRad(2); // Clock
+        shoulderGroup.rotation.y -= rotationAmount; // Clock
+        sendCommand('clock', 'base');
     } else if (direction === 'clock') {
-        shoulderGroup.rotation.y += THREE.Math.degToRad(2); // Counter
+        shoulderGroup.rotation.y += rotationAmount; // Counter
+        sendCommand('counter', 'base');
     }
 }
 function shoulderControl(shoulder, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        elbowGroup.rotation.z -= THREE.Math.degToRad(2); // Clock
+        elbowGroup.rotation.z -= rotationAmount; // Clock
+        sendCommand('clock', 'shouldere');
     } else if (direction === 'clock') {
-        elbowGroup.rotation.z += THREE.Math.degToRad(2); // Counter
+        elbowGroup.rotation.z += rotationAmount; // Counter
+        sendCommand('counter', 'shoulder');
     }
 }
 function upperarmControl(upperarm, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        wristGroup.rotation.z -= THREE.Math.degToRad(2); // Clock
+        wristGroup.rotation.z -= rotationAmount; // Clock
+        sendCommand('clock', 'upperarm');
     } else if (direction === 'clock') {
-        wristGroup.rotation.z += THREE.Math.degToRad(2); // Counter
+        wristGroup.rotation.z += rotationAmount; // Counter
+        sendCommand('counter', 'upperarm');
     }
 }
 function elbowControl(elbow, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        handGroup.rotation.x -= THREE.Math.degToRad(2); // Clock
+        handGroup.rotation.x -= rotationAmount; // Clock
+        sendCommand('clock', 'elbow');
     } else if (direction === 'clock') {
-        handGroup.rotation.x += THREE.Math.degToRad(2); // Counter
+        handGroup.rotation.x += rotationAmount; // Counter
+        sendCommand('counter', 'elbow');
     }
 }
 function forehandControl(forehand, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        forehandGroup.rotation.z -= THREE.Math.degToRad(2); // Clock
+        forehandGroup.rotation.z -= rotationAmount; // Clock
+        sendCommand('clock', 'forehand');
     } else if (direction === 'clock') {
-        forehandGroup.rotation.z += THREE.Math.degToRad(2); // Counter
+        forehandGroup.rotation.z += rotationAmount; // Counter
+        sendCommand('counter', 'forehand');
     }
 }
 function wristControl(wrist, direction) {
-    const rotationAmount = THREE.Math.degToRad(2);
+    const rotationAmount = THREE.Math.degToRad(rotatingAngle);
     if (direction === 'counter') {
-        fingerGroup.rotation.x -= THREE.Math.degToRad(2); // Clock
+        fingerGroup.rotation.x -= rotationAmount; // Clock
+        sendCommand('clock', 'wrist');
     } else if (direction === 'clock') {
-        fingerGroup.rotation.x += THREE.Math.degToRad(2); // Counter
+        fingerGroup.rotation.x += rotationAmount; // Counter
+        sendCommand('counter', 'wrist');
     }
 }
 
