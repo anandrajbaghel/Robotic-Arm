@@ -1,16 +1,16 @@
 // This file handles all UI interactions, including button clicks, keyboard shortcuts, and log book updates.
 // It contains the centralized handleControl function that calls the movement function and logs the actions.
 
-import {structureControl, baseControl, shoulderControl, upperarmControl, elbowControl, wristControl, forehandControl} from './stl.js';
+import { structureControl, baseControl, shoulderControl, upperarmControl, elbowControl, wristControl, forehandControl } from './stl.js';
+import { sendCommand } from './commandSender.js';
 
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // UI Elements
     const leftNavOpen = document.getElementById('sidebar-left-open');
     const leftNavClose = document.getElementById('sidebar-left-close');
     const rightNavOpen = document.querySelector('.sidebar-right-open');
     const rightNavClose = document.querySelector('.sidebar-right-close');
-    
+
     const blurBackground = document.querySelector('.blur-background');
     const leftNav = document.querySelector('.sidebar-left');
     const rightNav = document.querySelector('.sidebar-right');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const shortcutBox = document.querySelector('.shortcut-box');
     const aboutBox = document.querySelector('.about-box');
     const resourcesBox = document.querySelector('.resource-box');
-    
+
     const openShortcuts = document.getElementById('shortcuts');
     const openAbout = document.getElementById('about');
     const openResources = document.getElementById('resources');
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (clickedElement) {
                 let direction;
-                
+
                 if (controlName === 'Gripper') {
                     direction = clickedElement.classList.contains('control-1') ? 'Hold' : 'Released';
                 } else if (controlName === 'Wrist') {
@@ -242,6 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 updateLogBook(controlName, direction);
+                sendCommand(direction, controlName.toLowerCase()); // Ensure the command is sent only once
             }
         }
     });
@@ -249,13 +250,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Centralized Control Handler
     function handleControl(action, direction) {
         moveSTLObject(action, direction);
-        
+
         // Update Log Book
         // updateLogBook(action, direction);
     }
     // Move STL Object/Group
     function moveSTLObject(action, direction) {
-        switch(action) {
+        switch (action) {
             case 'base':
                 baseControl('base', direction);
                 break;
@@ -279,8 +280,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateLogBook(action, direction) {
         // Check if the row already exists and if it is the same as the last row
-        const currentRow = Array.from(logBookTableBody.rows).find(row => 
-            row.cells[0].textContent === action && 
+        const currentRow = Array.from(logBookTableBody.rows).find(row =>
+            row.cells[0].textContent === action &&
             row.cells[1].textContent === direction
         );
 
@@ -335,37 +336,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Button Event Listeners
-// for each controlButton in controlButtons {
-//     controlButton.addEventListener('click', (event) => {
-//         let action = getControlAction(event);
-//         let direction = getControlDirection(event);
-//         handleControl(action, direction);  // Calls centralized handler
-//     });
-// }
-
-// // Keyboard Shortcut Event Listener
-// document.addEventListener('keydown', (event) => {
-//     let action = getShortcutAction(event);
-//     let direction = getShortcutDirection(event);
-//     handleControl(action, direction);  // Calls centralized handler
-// });
