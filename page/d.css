@@ -1,143 +1,144 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-    user-select: none;
-    font-family: SF Pro Display;
-    /* border: 1px dotted #000; */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: SF Pro Display;
+  /* border: 1px dotted #000; */
 }
 
 body {
-    cursor: url('r/img/arrow.png') 0 0, auto;
+  cursor: url("r/img/arrow.png") 0 0, auto;
 }
-.screen{
-    background-color: #ffffff;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 32px;
-    padding-top: 10px;
-    /* border: 1px solid #000; */
+.screen {
+  background-color: #ffffff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 32px;
+  padding-top: 10px;
+  /* border: 1px solid #000; */
 }
-.canvas{
-    width: 40dvw;
-    height: 75dvh;
-    border-radius: 32px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.canvas {
+  width: 40dvw;
+  height: 75dvh;
+  border-radius: 32px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.control-buttons{
-    width: max-content;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    height: 80dvh;
-    border-radius: 32px;
-    padding: 10px 32px;
-    /* border: 1px solid #000; */
+.control-buttons {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 80dvh;
+  border-radius: 32px;
+  padding: 10px 32px;
+  /* border: 1px solid #000; */
 }
-
 
 /* blur */
-.blur-background{
-    display: hidden;
-    width: 100dvw;
-    height: 100dvh;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: -1;
-    top: 0;
-    left: 0;
-    position: absolute;
-    /* transition: 0.5s ease-in-out; */
+.blur-background {
+  display: hidden;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+  top: 0;
+  left: 0;
+  position: absolute;
+  /* transition: 0.5s ease-in-out; */
 }
 
-
-.project-guide{
-    border: 1px solid #000;
+.project-guide {
+  border: 1px solid #000;
 }
 
-
-.control{
-    width: max-content;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1.6px solid rgba(0, 0, 0, 0.2);
+.control {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.6px solid rgba(0, 0, 0, 0.2);
 }
 .control.dragging {
-    background-color: #eee;
-    cursor: grabbing;
+  background-color: #eee;
+  cursor: grabbing;
 }
-.grabber{
-    cursor: url('r/img/grab.png') 4 4, grab;
-    /* border: 1px dotted #000; */
+.grabber {
+  cursor: url("r/img/grab.png") 4 4, grab;
+  /* border: 1px dotted #000; */
 }
-.grabber img{
-    width: 24px;
-    height: 24px;
-    /* border: 1px dotted #000; */
+.grabber img {
+  width: 24px;
+  height: 24px;
+  /* border: 1px dotted #000; */
 }
-.control-name{
-    width: 140px;
-    font-size: 24px;
-    color: #000;
-    margin-left: 8px;
-    /* border: 1px dotted #000; */
+.control-name {
+  width: 140px;
+  font-size: 24px;
+  color: #000;
+  margin-left: 8px;
+  /* border: 1px dotted #000; */
 }
-.icon-and-control-button{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    /* border: 1px dotted #000; */
+.icon-and-control-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  /* border: 1px dotted #000; */
 }
-.icon{
-    width: 50px;
-    height: 50px;
-    /* border: 1px dotted #000; */
+.icon {
+  width: 50px;
+  height: 50px;
+  /* border: 1px dotted #000; */
 }
-.icon img{
-    width: 50px;
-    height: 50px;
-    /* border: 1px dotted #000; */
+.icon img {
+  width: 50px;
+  height: 50px;
+  /* border: 1px dotted #000; */
 }
-.control-button{
-    width: max-content;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: url('r/img/pointer.png') 4 4, pointer;
-    /* border: 1px dotted #000; */
+.control-button {
+  width: max-content;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: url("r/img/pointer.png") 4 4, pointer;
+  /* border: 1px dotted #000; */
 }
-.control-1, .control-2{
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    transition: 0.32s ease-in-out;
-    border: 1.6px solid rgba(0, 0, 0, 0.2);
+.control-1,
+.control-2 {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  transition: 0.32s ease-in-out;
+  border: 1.6px solid rgba(0, 0, 0, 0.2);
 }
-.control-1 img, .control-2 img{
-    width: 28px;
-    height: 28px;
-    /* border: 1px dotted #000; */
+.control-1 img,
+.control-2 img {
+  width: 28px;
+  height: 28px;
+  /* border: 1px dotted #000; */
 }
-.control-1:hover, .control-2:hover{
-    background-color: rgba(0, 0, 0, 0.1);
+.control-1:hover,
+.control-2:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
-.control.hover-effect{
-    background-color: rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc;
-    transition: background-color 0.3s, border 0.3s;
+.control.hover-effect {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  transition: background-color 0.3s, border 0.3s;
 }
