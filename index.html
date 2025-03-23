@@ -23,6 +23,21 @@
         <div class="app-title">
             Robot Control Panel
         </div>
+        <div class="icon-32 angle" id="angle">
+            &theta;
+            <input
+                class="angle-input"
+                id="angle-input"
+                type="number"
+                name="angle"
+                value="9"
+                min="1"
+                max="9"
+                placeholder="0"
+                oninput="this.value = Math.min(Math.max(Math.round(this.value), 1), 9)"
+                onwheel="this.value = Math.min(Math.max(Math.round(this.value) + Math.sign(event.deltaY) * -1, 1), 9); event.preventDefault();"
+            />
+        </div>
         <div class="icon-32 socket" id="socket">
             <span class="marker" id="socket-marker"></span>
             <img src="./page/r/icon/socket.svg" alt="" srcset="">
