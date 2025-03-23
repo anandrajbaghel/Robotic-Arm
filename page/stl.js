@@ -47,7 +47,7 @@ const loader = new THREE.STLLoader();
 // Base (the root object of the robotic arm)
 let baseGroup = new THREE.Group();
 scene.add(baseGroup); // Add baseGroup to the scene
-loader.load('../stl/0base.stl', function (geometry) {
+loader.load('./stl/0base.stl', function (geometry) {
     const material = new THREE.MeshPhongMaterial({ color: 0x555555 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -18.4, 0);
